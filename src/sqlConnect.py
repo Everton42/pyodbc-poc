@@ -9,24 +9,10 @@ cnxn = pyodbc.connect(strConnectionString)
 cnxn.autocommit = False
 cursor = cnxn.cursor()
 cursor.execute("select * from Employees")
-row = cursor.fetchone()
+row = cursor.fetchone() # Returns the next row in the query, or None when no more data is available.
 while row:
-    print (str(row[0]) + " " + str(row[1]) + " " + str(row[2]))
+    print (str(row.EmployeeID) + " " + str(row.FirstName) + " " + str(row.LastName))
     row = cursor.fetchone()
 
-# fast_executemany
-# Under the hood, there is one important difference when fast_executemany=True.
-# In that case, on the client side, pyodbc converts the Python parameter values to their ODBC "C" equivalents,
-#  based on the target column types in the database.
-# Executes the same SQL statement twice with parameters
-
-params = [ ('Snow','John'), ('Targaryen','Aegon') ]
-cursor.fast_executemany = True
-cursor.executemany("insert into Employees(Lastname,FirstName) values (?, ?)", params)
-cnxn.commit()
-
-cursor.execute("SELECT * FROM Employees")
-row = cursor.fetchone()
-while row:
-    print (str(row[0]) + " " + str(row[1]) + " " + str(row[2]))
-    row = cursor.fetchone()
+data_source_name = cnxn.getinfo(pyodbc.SQL_DATA_SOURCE_NAME)
+print(data_source_name)
