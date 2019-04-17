@@ -1,3 +1,5 @@
+# https://github.com/mkleehammer/pyodbc/wiki/Using-an-Output-Converter-function
+
 import struct
 import pyodbc
 
